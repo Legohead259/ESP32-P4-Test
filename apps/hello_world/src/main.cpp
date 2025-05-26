@@ -10,7 +10,6 @@
  * Version 0.1.0 - Initial baseline release
 **/
 #include <Arduino.h>
-#include "microros__test.h"
 
 void setup() {
     Serial.begin(115200);

@@ -24,18 +24,19 @@ static bool eth_connected = false;
 
 // Configure IP options based on build flags
 #ifdef CONTROLLER_ID
+#ifdef IP_DOMAIN_OCTET_0 // If octet 0 set, assume octet 1 and 2 are also set
+IPAddress local_ip(IP_DOMAIN_OCTET_0, IP_DOMAIN_OCTET_1, IP_DOMAIN_OCTET_2, CONTROLLER_ID);
+IPAddress gateway(IP_DOMAIN_OCTET_0, IP_DOMAIN_OCTET_1, IP_DOMAIN_OCTET_2, 1);
+#else // IP Domain not set. Default to 192.168.2.0/24
 IPAddress local_ip(192, 168, 2, CONTROLLER_ID);
-#else
-IPAddress local_ip(192, 168, 2, 20);
-#endif // DEF(CONTROLLER_ID)
 IPAddress gateway(192, 168, 2, 1);
-IPAddress subnet(255, 255, 255, 0);
+#endif // IP_DOMAIN_OCTET_0
+#else // If CONTROLLER_ID not set, go to default IP address
+IPAddress local_ip(192, 168, 2, 20);
+IPAddress gateway(192, 168, 2, 1);
+#endif // CONTROLLER_ID
 
-//variabls for blinking an LED with Millis
-const int led = 2; // ESP32 Pin to which onboard LED is connected
-unsigned long previousMillis = 0;  // will store last time LED was updated
-const long interval = 1000;  // interval at which to blink (milliseconds)
-int ledState = LOW;  // ledState used to set the LED
+IPAddress subnet(255, 255, 255, 0); // Always assume 24-bit subnet mask
 
 // WARNING: onEvent is called from a separate FreeRTOS task (thread)!
 void onEvent(arduino_event_id_t event) {
@@ -44,7 +45,11 @@ void onEvent(arduino_event_id_t event) {
       Serial.println("ETH Started");
       // The hostname must be set after the interface is started, but needs
       // to be set before DHCP, so set it from the event handler thread.
-      ETH.setHostname("esp32-ethernet");
+      #ifdef CONTROLLER_HOSTNAME
+      ETH.setHostname(CONTROLLER_HOSTNAME);
+      #else
+      ETH.setHostname("esp-hostname");
+      #endif // DEF(CONTROLLER_HOSTNAME)
       break;
     case ARDUINO_EVENT_ETH_CONNECTED: Serial.println("ETH Connected"); break;
     case ARDUINO_EVENT_ETH_GOT_IP:
@@ -69,9 +74,6 @@ void onEvent(arduino_event_id_t event) {
 }
 
 void setup() {
-
-  pinMode(led, OUTPUT);
-  
   Serial.begin(115200);
   Serial.println("Booting");
   Network.onEvent(onEvent);  // Will call onEvent() from another thread.
@@ -82,7 +84,7 @@ void setup() {
   }
 
   // Port defaults to 3232
-  // ArduinoOTA.setPort(3232);
+  ArduinoOTA.setPort(3232);
 
   // Hostname defaults to esp3232-[MAC]
   // ArduinoOTA.setHostname("myesp32");
@@ -128,18 +130,5 @@ void setup() {
 }
 
 void loop() {
-  ArduinoOTA.handle();  
-  
-  //loop to blink without delay
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval) {
-    // save the last time you blinked the LED
-    previousMillis = currentMillis;
-    // if the LED is off turn it on and vice-versa:
-    ledState = not(ledState);
-    // set the LED with the ledState of the variable:
-    digitalWrite(led,  ledState);
-    Serial.println("Working...");   
-  }
-
+  ArduinoOTA.handle();
 }
