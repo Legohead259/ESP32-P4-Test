@@ -31,6 +31,13 @@ static const uint8_t SCK   = 36;
 
 // DAC
 
+// Ethernet
+#define ETH_PHY_TYPE    ETH_PHY_TLK110
+#define ETH_PHY_ADDR    1
+#define ETH_PHY_MDC     31
+#define ETH_PHY_MDIO    52
+#define ETH_PHY_POWER   51
+#define ETH_CLK_MODE    EMAC_CLK_EXT_IN
 
 // Usage-Specific Pins
 
