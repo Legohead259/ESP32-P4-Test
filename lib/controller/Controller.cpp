@@ -45,7 +45,11 @@ bool Controller::_beginNetwork(long timeout) {
     Network.onEvent(std::bind(&Controller::_onNetworkEvent, this, std::placeholders::_1));  
     
     // Must use global ETH object for some reason. Does not work if we define our own instance *shrug*
-    bool _isEthStarted = ETH.begin(ETH_PHY_TYPE, ETH_PHY_ADDR, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_POWER, ETH_CLK_MODE);
+    if (!ETH.begin(ETH_PHY_TYPE, ETH_PHY_ADDR, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_POWER, ETH_CLK_MODE)) {
+        log(LOG_ERROR, "Ethernet controller failed to start!");
+        return false;
+    }
+    log(LOG_INFO, "Ethernet controller started");
     ETH.config(localIP, gateway, subnet);
 
     // Check connection timeout
@@ -53,10 +57,13 @@ bool Controller::_beginNetwork(long timeout) {
     long _timeoutEnd = _timeoutStart + timeout;
     while (!isEthConnected) {
         log(LOG_DEBUG, ".");
-        if (millis() >= _timeoutEnd) return false; // TODO: Replace with network start enum type
+        if (millis() >= _timeoutEnd) {
+            log(LOG_ERROR, "Ethernet connection timeout! Check connection!");
+            return false;
+        }
     }
 
-    return true; // TODO: Replace with network start enum type
+    return true;
 }
 
 bool Controller::_beginOTA() {
