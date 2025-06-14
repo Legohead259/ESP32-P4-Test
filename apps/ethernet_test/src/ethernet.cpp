@@ -25,8 +25,8 @@
 
 static bool eth_connected = false;
 
-IPAddress local_ip(192, 168, 2, 10);
-IPAddress gateway(192, 168, 2, 1);
+IPAddress local_ip(192, 168, 34, 21);
+IPAddress gateway(192, 168, 34, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 // WARNING: onEvent is called from a separate FreeRTOS task (thread)!
@@ -61,7 +61,7 @@ void onEvent(arduino_event_id_t event) {
 }
 
 void testClient(const char *host, uint16_t port) {
-  IPAddress ip (192, 168, 1, 11); // The remote ip to ping
+  IPAddress ip (192, 168, 34, 5); // The remote ip to ping
   bool ret = Ping.ping(ip);
   if (ret) {
     Serial.print("Pinged host with average time: "); Serial.println(Ping.averageTime());
