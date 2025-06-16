@@ -1,37 +1,43 @@
 #include "Controller.h"
-#include <rcl/rcl.h>
-#include <rclc/rclc.h>
-#include <rcutils/logging_macros.h>
+#include <micro_ros__definitions.h>
+
+typedef enum {
+    INITIALIZING,
+    WAITING_FOR_AGENT,
+    AGENT_AVAILABLE,
+    AGENT_CONNECTED,
+    AGENT_DISCONNECTED
+} agent_state_t;
 
 class MicroROSController : public Controller {
 public:
     MicroROSController();
-    ~MicroROSController() override {}
+    ~MicroROSController() { destroyEntities(); }
+
+    bool begin();
 
 protected:
-    void log(LogLevel level, const String& message) override {
-        switch (level) {
-            case LOG_ERROR: RCLCPP_ERROR(nullptr, "%s", message.c_str()); break;
-            case LOG_WARN:  RCLCPP_WARN(nullptr, "%s", message.c_str()); break;
-            case LOG_INFO:  RCLCPP_INFO(nullptr, "%s", message.c_str()); break;
-            case LOG_DEBUG: RCLCPP_DEBUG(nullptr, "%s", message.c_str()); break;
-            default: break;
-        }
-    }
+    // ROS node configuration
+    const char* nodeName="micro_ros_controller_node";
+    const int executorTimeout = 100;  // ms
 
-    void logf(LogLevel level, const char* format, ...) override {
-        char buffer[256];
-        va_list args;
-        va_start(args, format);
-        vsnprintf(buffer, sizeof(buffer), format, args);
-        va_end(args);
+    // ROS entities
+    rclc_executor_t executor;
+    rclc_support_t support;
+    rcl_allocator_t allocator;
+    rcl_node_t node; 
+    
+    // Micro-ROS configuration
+    IPAddress agentIP;
+    uint16_t agentPort;
+    agent_state_t agentState;
+    size_t domainID=8;
 
-        switch (level) {
-            case LOG_ERROR: RCLCPP_ERROR(nullptr, "%s", buffer); break;
-            case LOG_WARN:  RCLCPP_WARN(nullptr, "%s", buffer); break;
-            case LOG_INFO:  RCLCPP_INFO(nullptr, "%s", buffer); break;
-            case LOG_DEBUG: RCLCPP_DEBUG(nullptr, "%s", buffer); break;
-            default: break;
-        }
-    }
+    virtual void handleConnectionState();
+    virtual bool createEntities() { return true; }
+    virtual void destroyEntities() {}
+
+private:
 };
+
+extern MicroROSController controllerUros;

@@ -23,9 +23,15 @@ public:
     controller_log_level_t getLogLevel() { return currentLogLevel; }
 
 protected:
+    // Network configuration
+    IPAddress localIP;
+    IPAddress gateway;
+    IPAddress subnet;
+    bool isEthConnected;
+
     static constexpr const char* TAG = "Controller";
 
-    virtual void log(controller_log_level_t level, const char* message) {
+    void log(controller_log_level_t level, const char* message) {
         if (level <= currentLogLevel) {
             esp_log_level_t espLevel = convertToEspLogLevel(level);
             switch (level) {
@@ -39,7 +45,7 @@ protected:
         }
     }
 
-    virtual void logf(controller_log_level_t level, const char* format, ...) {
+    void logf(controller_log_level_t level, const char* format, ...) {
         if (level <= currentLogLevel) {
             char buffer[1024];
             va_list args;
@@ -64,17 +70,7 @@ private:
         }
     }
 
-    void espLogf(esp_log_level_t level, const char* format, va_list args) {
-        
-    }
-
-    IPAddress localIP;
-    IPAddress gateway;
-    IPAddress subnet;
-
     TaskHandle_t arduinoOTATask;
-
-    bool isEthConnected;
 
     bool _beginNetwork(long timeout=10000);
     bool _beginOTA();

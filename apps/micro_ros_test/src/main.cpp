@@ -1,10 +1,10 @@
 #include <Arduino.h>
-#include <MicroRosController.h>
+#include <MicroRosPubSub.h>
 
 void setup() {
     Serial.begin(115200);
 
-    uros_controller.begin();
+    controllerPubSub.begin();
 }
 
 void loop() {    
