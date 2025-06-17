@@ -1,20 +1,21 @@
 #include <MicroRosController.h>
 #include <std_msgs/msg/string.h>
 
-class MicroROSPubSub : MicroROSController {
+class MicroRosPubSub : MicroRosController {
 public:
-    MicroROSPubSub();
-    ~MicroROSPubSub() { destroyEntities(); }
+    MicroRosPubSub();
+    ~MicroRosPubSub() { destroyEntities(); }
 
     bool begin();
     
 protected:
-    void handleConnectionState() override;
+    void handleConnectionState() override { MicroRosController::handleConnectionState(); }
     bool createEntities() override;
     void destroyEntities() override;
 
 private:
-    static MicroROSPubSub* instance_;
+    static MicroRosPubSub* instance_;
+    TaskHandle_t microRosTask;
 
     // ROS node configuration
     const char* publisherTopic="micro_ros_response";
@@ -35,7 +36,13 @@ private:
     void _publishResponse();
 
     static void _subscriptionCallbackStatic(const void* msgin) { instance_->_subscriptionCallback(msgin); }
+
+    static void microRosTaskCallbackStatic(void* pvParameters) {
+        for (;;) {
+            instance_->handleConnectionState();
+            vTaskDelay(pdMS_TO_TICKS(10));  // Yield to scheduler every 10 ms
+        }
+    }
 };
 
-MicroROSPubSub* MicroROSPubSub::instance_ = nullptr;
-extern MicroROSPubSub controllerPubSub;
+extern MicroRosPubSub controllerPubSub;

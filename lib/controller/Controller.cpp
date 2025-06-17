@@ -6,13 +6,13 @@ Controller::Controller()
         #ifdef IP_DOMAIN_OCTET_0 // If octet 0 set, assume octet 1 and 2 are also set
         localIP(IP_DOMAIN_OCTET_0, IP_DOMAIN_OCTET_1, IP_DOMAIN_OCTET_2, CONTROLLER_ID),
         gateway(IP_DOMAIN_OCTET_0, IP_DOMAIN_OCTET_1, IP_DOMAIN_OCTET_2, 1),
-        #else // IP Domain not set. Default to 192.168.2.0/24
-        localIP(192, 168, 2, CONTROLLER_ID),
-        gateway(192, 168, 2, 1),
+        #else // IP Domain not set. Default to 192.168.34.0/24
+        localIP(192, 168, 34, CONTROLLER_ID),
+        gateway(192, 168, 34, 1),
         #endif // IP_DOMAIN_OCTET_0
         #else // If CONTROLLER_ID not set, go to default IP address
-        localIP(192, 168, 2, 20),
-        gateway(192, 168, 2, 1),
+        localIP(192, 168, 34, 21),
+        gateway(192, 168, 34, 1),
         #endif // CONTROLLER_ID
 
         subnet(255, 255, 255, 0) // Always assume 24-bit subnet mask

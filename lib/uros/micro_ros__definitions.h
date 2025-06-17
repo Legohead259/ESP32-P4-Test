@@ -17,6 +17,7 @@
 // Define macros for checking function success
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ while(1); }} // Blocking
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ }} // Non-blocking
+#define RCRETCHECK(fn) { rcl_ret_t temp_rc = fn; return temp_rc != RCL_RET_OK} // Returns RCL_RET_OK
 
 // Define macros for executing a task every interval
 #define EXECUTE_EVERY_N_MS(MS, X)  do { \

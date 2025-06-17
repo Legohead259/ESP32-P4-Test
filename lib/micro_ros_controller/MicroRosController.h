@@ -9,10 +9,10 @@ typedef enum {
     AGENT_DISCONNECTED
 } agent_state_t;
 
-class MicroROSController : public Controller {
+class MicroRosController : public Controller {
 public:
-    MicroROSController();
-    ~MicroROSController() { destroyEntities(); }
+    MicroRosController();
+    ~MicroRosController() { destroyEntities(); }
 
     bool begin();
 
@@ -40,4 +40,4 @@ protected:
 private:
 };
 
-extern MicroROSController controllerUros;
+extern MicroRosController controllerUros;

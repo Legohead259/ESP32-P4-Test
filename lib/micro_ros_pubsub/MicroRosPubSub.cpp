@@ -1,13 +1,29 @@
 #include "MicroRosPubSub.h"
 
-MicroROSPubSub::MicroROSPubSub() {}
+MicroRosPubSub::MicroRosPubSub() {}
 
-bool MicroROSPubSub::begin() {
+bool MicroRosPubSub::begin() {
     instance_ = this;
-    return MicroROSController::begin();
+
+    // Initialize message buffers
+    received_msg.data.data = received_buffer;
+    received_msg.data.capacity = sizeof(received_buffer);
+    response_msg.data.data = response_buffer;
+    response_msg.data.capacity = sizeof(response_buffer);
+    
+    xTaskCreate(
+        microRosTaskCallbackStatic,     // Function to implement the task
+        "MicroROS::main",               // Name of the task
+        4096,                           // Stack size in words
+        nullptr,                        // Task input parameter
+        1,                              // Priority of the task
+        &microRosTask                   // Task handle
+    );
+
+    return MicroRosController::begin();
 }
 
-bool MicroROSPubSub::createEntities() {
+bool MicroRosPubSub::createEntities() {
     allocator = rcl_get_default_allocator();
 
     // Initialize options and set domain ID
@@ -42,26 +58,33 @@ bool MicroROSPubSub::createEntities() {
     }
 
     // Create subscriber
-    if (rclc_subscription_init_default(&subscriber, &node,
+    if (rclc_subscription_init_default(
+        &subscriber, 
+        &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String),
         subscriberTopic) != RCL_RET_OK) {
         return false;
     }
 
     // Initialize executor
-    if (rclc_executor_init(&executor, &support.context, 1, &allocator) != RCL_RET_OK) {
+    if (rclc_executor_init(&executor, &support.context, 2, &allocator) != RCL_RET_OK) {
         return false;
     }
 
     // Add subscriber to executor
-    if (rclc_executor_add_subscription(&executor, &subscriber, &received_msg, &_subscriptionCallbackStatic, ON_NEW_DATA) != RCL_RET_OK) {
+    if (rclc_executor_add_subscription(
+        &executor, 
+        &subscriber, 
+        &received_msg, 
+        &_subscriptionCallbackStatic, 
+        ON_NEW_DATA) != RCL_RET_OK) {
         return false;
     }
 
     return true;
 }
 
-void MicroROSPubSub::_subscriptionCallback(const void* msgin) {
+void MicroRosPubSub::_subscriptionCallback(const void* msgin) {
     const std_msgs__msg__String* msg = (const std_msgs__msg__String*)msgin;
 
     logf(controller_log_level_t::LOG_INFO, "Received: %s", msg->data.data);
@@ -74,7 +97,7 @@ void MicroROSPubSub::_subscriptionCallback(const void* msgin) {
     _publishResponse();
 }
 
-void MicroROSPubSub::_publishResponse() {
+void MicroRosPubSub::_publishResponse() {
     rcl_ret_t ret = rcl_publish(&publisher, &response_msg, NULL);
     if (ret == RCL_RET_OK) {
         logf(controller_log_level_t::LOG_INFO, "Published: %s", response_msg.data.data);
@@ -84,7 +107,7 @@ void MicroROSPubSub::_publishResponse() {
     }
 }
 
-void MicroROSPubSub::destroyEntities() {
+void MicroRosPubSub::destroyEntities() {
     rmw_context_t* rmw_context = rcl_context_get_rmw_context(&support.context);
     (void)rmw_uros_set_context_entity_destroy_session_timeout(rmw_context, 0);
 
@@ -96,4 +119,5 @@ void MicroROSPubSub::destroyEntities() {
     rclc_support_fini(&support);
 }
 
-MicroROSPubSub controllerPubSub;
+MicroRosPubSub* MicroRosPubSub::instance_ = nullptr;
+MicroRosPubSub controllerPubSub;
