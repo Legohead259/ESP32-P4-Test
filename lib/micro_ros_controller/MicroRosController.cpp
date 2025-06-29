@@ -48,7 +48,7 @@ void MicroRosController::handleConnectionState() {
             }
             else {
                 log(LOG_WARN, "Agent disconnected!");
-                agentState == AGENT_DISCONNECTED;
+                agentState = AGENT_DISCONNECTED;
             }
             break;
 
