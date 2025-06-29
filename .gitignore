@@ -5,3 +5,5 @@
 .vscode/ipch
 .vscode/
 *.bkp
+.venv/
+build/
