@@ -28,15 +28,24 @@ bool MicroRosPubSub::createEntities() {
 
     // Initialize options and set domain ID
     rcl_init_options_t init_options = rcl_get_zero_initialized_init_options();
-    if (rcl_init_options_init(&init_options, allocator) != RCL_RET_OK) {
+    if (rcl_init_options_init(
+        &init_options, 
+        allocator) != RCL_RET_OK) {
         return false;
     }
-    if (rcl_init_options_set_domain_id(&init_options, domainID) != RCL_RET_OK) {
+    if (rcl_init_options_set_domain_id(
+        &init_options, 
+        domainID) != RCL_RET_OK) {
         return false;
     }
 
     // Initialize support with domain ID options
-    if (rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator) != RCL_RET_OK) {
+    if (rclc_support_init_with_options(
+        &support, 
+        0,
+        NULL, 
+        &init_options, 
+        &allocator) != RCL_RET_OK) {
         return false;
     }
 
@@ -46,12 +55,17 @@ bool MicroRosPubSub::createEntities() {
     }
 
     // Initialize node and rest of entities
-    if (rclc_node_init_default(&node, nodeName, "", &support) != RCL_RET_OK) {
+    if (rclc_node_init_default(
+        &node, 
+        nodeName, 
+        nodeNamespace, 
+        &support) != RCL_RET_OK) {
         return false;
     }
 
     // Create publisher
-    if (rclc_publisher_init_default(&publisher, &node, 
+    if (rclc_publisher_init_default(&publisher, 
+        &node, 
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String),
         publisherTopic) != RCL_RET_OK) {
         return false;
@@ -67,7 +81,11 @@ bool MicroRosPubSub::createEntities() {
     }
 
     // Initialize executor
-    if (rclc_executor_init(&executor, &support.context, 2, &allocator) != RCL_RET_OK) {
+    if (rclc_executor_init(
+        &executor, 
+        &support.context, 
+        2, 
+        &allocator) != RCL_RET_OK) {
         return false;
     }
 

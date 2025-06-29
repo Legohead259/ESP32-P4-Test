@@ -18,7 +18,16 @@ public:
 
 protected:
     // ROS node configuration
-    const char* nodeName="micro_ros_controller_node";
+    #ifdef CONTROLLER_NAME
+    const char* nodeName = CONTROLLER_NAME;
+    #else
+    const char* nodeName = "micro_ros_controller_node";
+    #endif
+    #ifdef CONTROLLER_NAMESPACE
+    const char* nodeNamespace = CONTROLLER_NAMESPACE;
+    #else
+    const char* nodeNamespace = "";
+    #endif
     const int executorTimeout = 100;  // ms
 
     // ROS entities
@@ -31,7 +40,11 @@ protected:
     IPAddress agentIP;
     uint16_t agentPort;
     agent_state_t agentState;
-    size_t domainID=8;
+    #ifdef ROS_DOMAIN_ID
+    size_t domainID = ROS_DOMAIN_ID;
+    #else
+    size_t domainID=0;
+    #endif
 
     virtual void handleConnectionState();
     virtual bool createEntities() { return true; }
