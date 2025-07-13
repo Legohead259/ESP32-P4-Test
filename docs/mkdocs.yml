@@ -1,0 +1,72 @@
+site_name: ROSphoros
+copyright: Copyright &copy; 2025 Braidan Duffy
+
+docs_dir: source/
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Hardware Overview: getting-started/hardware-overview.md
+    - Software Overview: getting-started/software-overview.md
+    - Autonomy Computer Setup: getting-started/autonomy-computer-setup.md
+  - User Guide: user-guide/
+  - Developer Guide: developer-guide/
+  - About: about.md
+
+theme:
+  name: material
+  color_mode: auto
+  user_color_mode_toggle: true
+  locale: en
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - django
+  features:
+    - content.code.copy
+    - navigation.footer
+
+extra_css:
+  - css/extra.css
+
+plugins:
+  - search
+  - caption:
+      figure: 
+        enable: true
+        start_index: 1
+        increment_index: 1
+        position: bottom
+        default_id: '_figure-{index}'
+        reference_text: 'Figure {index}'
+        caption_prefix: 'Figure {index}:'
+        markdown_identifier: 'Figure:'
+        allow_indented_caption: True
+        ignore_alt: False
+        ignore_classes: ["twemoji"]
+  - autorefs
+  - literate-nav: # Enables drop down navigation for MKDocs theme
+      nav_file: README.md
+      implicit_index: true
+  - macros
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: 
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra:
+  project_name: ROSphoros
+  repository_url: https://github.com/Legohead259/ESP32-P4-Test
+  version_tag: v1.0.0-rc1
+  images_dir: artifacts/images
+  charts_dir: artifacts/charts
