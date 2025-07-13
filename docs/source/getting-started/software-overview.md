@@ -23,8 +23,8 @@ Setting up the micro-ROS workspace on the autonomy computer will be covered in a
 ## IDE
 
 In a future iteration of the project, the microcontrollers will be running different applications, so we need a way to manage multiple libraries, environmental variables, and source applications - ideally within the same programming workspace to minimize clutter and the need to have multiple windows open simultaneously.
-[Visual Studio Code](code.visualstudio.com) is a powerful IDE that has a wide-array of extensions and workspace management tools to enable our requirements.
-VS Code supports [PlatformIO](platformio.org) through an extension which allows us to manage different platforms, board specifications, frameworks, libraries, etc. within a single workspace.
+[Visual Studio Code](https://code.visualstudio.com) is a powerful IDE that has a wide-array of extensions and workspace management tools to enable our requirements.
+VS Code supports [PlatformIO](https://platformio.org) through an extension which allows us to manage different platforms, board specifications, frameworks, libraries, etc. within a single workspace.
 
 Using the [platformio.ini](https://docs.platformio.org/en/latest/projectconf/) file, we can create different programming environments that have a variety of variables we can change; this allows us to load different applications to different upload ports using different compilation variables - perfect for our use-case.
 Because of the project's complexity, we will not just be using the single platformio.ini file.
