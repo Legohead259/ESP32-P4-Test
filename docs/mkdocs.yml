@@ -9,6 +9,7 @@ nav:
     - Hardware Overview: getting-started/hardware-overview.md
     - Software Overview: getting-started/software-overview.md
     - Autonomy Computer Setup: getting-started/autonomy-computer-setup.md
+    - Hardware Setup: getting-started/hardware-setup.md
   - User Guide: user-guide/
   - Developer Guide: developer-guide/
   - About: about.md
