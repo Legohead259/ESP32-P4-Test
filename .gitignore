@@ -2,5 +2,5 @@
 .vscode
 *.bkp
 .venv
-docs/build/
+site/
 __pycache__/
