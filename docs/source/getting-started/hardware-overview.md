@@ -15,7 +15,7 @@ The [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm) is a 
 This board comes with a special Power Over Ethernet (POE) expansion board that enables the board to communicate with and be powered by a 802.3af-compliant router or switch.
 The low Size, Weight, and Power (SWaP) specifications for this board make it ideal for a small RDTE testbench like can be provided by a 10-inch minirack.
 
-![Waveshare ESP32-P4-NANO](../artifacts/ESP32-P4-NANO-details-1.jpg "The Waveshare ESP32-P4-NANO development board. Courtesy of Waveshare")
+![Waveshare ESP32-P4-NANO](../{{ images_dir }}/ESP32-P4-NANO-details-1.jpg "The Waveshare ESP32-P4-NANO development board. Courtesy of Waveshare")
 
 ## Mini Rack
 
@@ -23,7 +23,7 @@ A miniature 10-inch server rack was explored for this project as the RDTE test b
 Research was conducted on Jeff Geerling's website, [Project MINI RACK](https://mini-rack.jeffgeerling.com/), to determine a suitable combination of hardware components to support the effort.
 Ultimately, a [4U DeskPi RackMate T0](https://deskpi.com/products/deskpi-rackmate-t1-rackmount-10-inch-4u-server-cabinet-for-network-servers-audio-and-video-equipment) was chosen because of its cost and availability.
 
-![4U DeskPi RackMate T0](../artifacts/DeskPi RackMate T0.jpg "The RDTE testbed hardware enclosure. Courtesy of DeskPi")
+![4U DeskPi RackMate T0](../{{ images_dir }}/DeskPi RackMate T0.jpg "The RDTE testbed hardware enclosure. Courtesy of DeskPi")
 
 ## Router/Switch
 
@@ -35,7 +35,7 @@ This unit provides a maximum of 1.4A@48V (450 mA per port) which is more than su
 It also runs MikroTik RouterOS and is compatible with their entire suite of Software Defined Networking (SDN) equipment which will be useful for the project's future.
 The CRS112 also supports routing, firewalls, DHCP services, and VPN over IPSec which fulfills all the requirements while only being 1U tall.
 
-![MikroTik CRS112-8P-4S-IN](../artifacts/crs112-8p-4s-in.png "The CRS112-8P-4S-IN POE router and switch. Courtesy of MikroTik")
+![MikroTik CRS112-8P-4S-IN](../{{ images_dir }}/crs112-8p-4s-in.png "The CRS112-8P-4S-IN POE router and switch. Courtesy of MikroTik")
 
 ## RDTE Testbed
 
@@ -43,4 +43,4 @@ The ESP32-P4 microcontrollers are connected to the switch using short lengths of
 Another ethernet cable is used to connect the switch to the autonomy computer.
 The overall rack layout with connections is shown below.
 
-![RDTE Testbed Rack Layout](../artifacts/rack_layout.png "The 4U rack layout for the RDTE testbed with ethernet connections shown in blue. CRS112 image courtesy of MikroTik")
+![RDTE Testbed Rack Layout](../{{ images_dir }}/rack_layout.png "The 4U rack layout for the RDTE testbed with ethernet connections shown in blue. CRS112 image courtesy of MikroTik")

@@ -10,7 +10,7 @@ This section will go over all of the software frameworks used.
 The core software is ROS2 which provides DDS capabilities and the underlying framework for all of the software nodes.
 The autonomy computer runs Ubuntu 22.04.5 and has [ROS2 Humble Hawksbill](https://docs.ros.org/en/humble/index.html) installed on it according to [the documentation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html) provided by the Open Source Robotics Foundation (OSRF).
 
-![ROS2 Humble Hawksbill Logo](../artifacts/humble_hawksbill_logo.jpg)
+![ROS2 Humble Hawksbill Logo](../{{ images_dir }}/humble_hawksbill_logo.jpg)
 
 ## Micro-ROS
 
@@ -18,7 +18,7 @@ All of the hardware nodes (autonomy computer and four microcontrollers) are conn
 However, [micro-ROS](https://micro.ros.org/) provides a unique capability that allows microcontrollers to interact with a ROS2 stack via a transport layer. Micro-ROS runs on a variety of microcontrollers - including the ESP32 family, and allows seamless integration with a ROS2 stack through an agent node.
 Setting up the micro-ROS workspace on the autonomy computer will be covered in a later section.
 
-![Micro-ROS Logo](../artifacts/micro_ros_logo.png)
+![Micro-ROS Logo](../{{ images_dir }}/micro_ros_logo.png)
 
 ## IDE
 
@@ -32,10 +32,10 @@ A detailed breakdown of the environmental organizational structure will be provi
 
 | VS Code                                  | PlatformIO                                           |
 | ---------------------------------------- | ---------------------------------------------------- |
-| ![VSCode Logo](../artifacts/vs_code.png){: style="width:350px"} | ![PlatformIO Logo](../artifacts/platformio-logo.png){: style="width:350px"} |
+| ![VSCode Logo](../{{ images_dir }}/vs_code.png){: style="width:350px"} | ![PlatformIO Logo](../{{ images_dir }}/platformio-logo.png){: style="width:350px"} |
 
 ## Docker
 
 For simplicity, we will containerize the final ROS2 workspace and launch file so that it can be quickly spun up and deployed like an application without the need for multiple different processes running on the host machine. Therefore, we will use [Docker engine](https://docs.docker.com/engine/install/ubuntu/) to create and manage the container for us.
 
-![Docker Logo](../artifacts/docker_logo.png)
+![Docker Logo](../{{ images_dir }}/docker_logo.png)
