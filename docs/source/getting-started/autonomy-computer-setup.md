@@ -37,7 +37,7 @@ The interactions are the same for the other controllers.
 The blue boxes, "OTA Initial", "OTA Followup", and "MicroROS Test" denote the actual PlatformIO environments that are uploaded the microcontrollers.
 These will be explore more in-depth shortly.
 
-![PIO Environment File Interactions]({{ images_dir }}/pio_environment_diagram.png "The interactions between the PlatformIO environmental variables and the relevant sections of the workspace.")
+![PIO Environment File Interactions](../{{ images_dir }}/pio_environment_diagram.png "The interactions between the PlatformIO environmental variables and the relevant sections of the workspace.")
 
 The green "ESP32-P4 Base" component leverages the Arduino framework's capability to define custom board variants for a project.
 This will allow us to define custom pin variables in the future depending on what is connected to the microcontroller.
