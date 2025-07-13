@@ -1,6 +1,6 @@
 # ROSphoros
 
-*Bringing illumination - and topics - to the world of embedded electronics*
+*Bringing illumination - and ROS topics - to the world of embedded electronics*
 
 ---
 
